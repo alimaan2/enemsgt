@@ -446,120 +446,596 @@
       font-weight: 500;
     }
 
-    /* ABOUT */
-    .about-intro {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 5rem 5% 3rem;
-    }
-    .about-body {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 5% 5rem;
-    }
+    import { useEffect, useRef, useState } from "react";
 
-    /* QUOTE BANNER */
-    .quote-banner {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      height: 300px;
-      margin: 3rem 0;
-    }
-    .quote-banner img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .quote-banner-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(192,32,26,0.78) 0%, rgba(28,28,30,0.6) 100%);
-      display: flex;
-      align-items: center;
-      padding: 3rem;
-    }
-    .quote-banner blockquote {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.1rem, 2vw, 1.6rem);
-      font-style: italic;
-      color: #fff;
-      max-width: 650px;
-      line-height: 1.4;
-    }
+/**
+ * About Page — Clinical Modernism
+ * Sections: Vision, Approach, Culture, Executive Board
+ */
 
-    /* VALUES */
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-top: 2rem;
-    }
-    .value-item { display: flex; align-items: flex-start; gap: 0.75rem; }
-    .value-dot {
-      width: 8px; height: 8px;
-      background: var(--red);
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 0.55rem;
-    }
-    .value-item p { font-size: 0.88rem; color: var(--slate); line-height: 1.6; }
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
 
-    /* CONTACT */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.3fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    form { display: flex; flex-direction: column; gap: 1.2rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-    label { font-size: 0.78rem; font-weight: 500; color: var(--charcoal); }
-    input, select, textarea {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      color: var(--charcoal);
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.8rem 1rem;
-      width: 100%;
-      outline: none;
-      appearance: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(192,32,26,0.1);
-    }
-    textarea { resize: vertical; min-height: 130px; }
-    .form-submit {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #fff;
-      background: var(--red);
-      border: 2px solid var(--red);
-      padding: 1rem 2.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: all 0.2s;
-    }
-    .form-submit:hover {
-      background: var(--red-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(192,32,26,0.25);
-    }
-    .contact-detail {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--slate);
-      margin-bottom: 1rem;
-    }
-    .contact-detail svg { width: 18px; height: 18px; color: var(--red); flex-shrink: 0; }
+  useEffect(() => {
+    if (!ref.current) return;
 
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold }
+    );
+
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [threshold]);
+
+  return { ref, inView };
+}
+
+const approachItems = [
+  {
+    label: "Research-Informed Design",
+    desc: "We ground decisions in published evidence and clinical standards. Before we build, we read. Before we prototype, we define the real constraint.",
+  },
+  {
+    label: "Iterative Development",
+    desc: "We build, test, learn, and refine. Prototypes aren’t the finish line — they’re feedback from reality.",
+  },
+  {
+    label: "Systems Thinking",
+    desc: "A device doesn’t exist in isolation. We design for workflow, time pressure, environment, and actual provider behavior.",
+  },
+  {
+    label: "Data-Driven Decisions",
+    desc: "Metrics, usability feedback, and outcomes guide what we improve — and what we stop doing.",
+  },
+  {
+    label: "Cross-Disciplinary Collaboration",
+    desc: "Engineering, clinical reasoning, and research methodology converge here — because better solutions come from multiple perspectives.",
+  },
+];
+
+const cultureItems = [
+  {
+    label: "Genuine Interest",
+    desc: "We work best with people who actually care about EMS, medical devices, or healthcare systems — not just a résumé line.",
+  },
+  {
+    label: "Ownership Mindset",
+    desc: "If you take on a task, you drive it to completion. We value follow-through more than big talk.",
+  },
+  {
+    label: "Consistency Over Intensity",
+    desc: "Steady progress beats sporadic heroics. Show up, contribute, build momentum.",
+  },
+  {
+    label: "Learning + Growth",
+    desc: "You’ll run into problems you haven’t solved before. That’s the point. We expect curiosity, questions, and growth.",
+  },
+  {
+    label: "Accountability",
+    desc: "We trust each other to deliver. When things change, we communicate early and clearly.",
+  },
+];
+
+// Put headshots in: client/public/exec/<filename>
+const execBoard = [
+  {
+    name: "Founder Name",
+    role: "Founder",
+    team: "Leadership",
+    bio: "Short bio placeholder. Background + why they care about prehospital care + what they lead inside ENEMS.",
+    photo: "/exec/founder-1.jpg", // replace later
+    badge: "devices" as const, // just controls badge style
+  },
+  {
+    name: "Co-Founder Name",
+    role: "Co-Founder",
+    team: "Leadership",
+    bio: "Short bio placeholder. Focus area, leadership lane, and what they’re driving forward this semester.",
+    photo: "/exec/founder-2.jpg",
+    badge: "devices" as const,
+  },
+  {
+    name: "VP Name",
+    role: "VP of Communication",
+    team: "Systems Team",
+    bio: "Short bio placeholder. Handles messaging, branding, internal comms, and making our work understandable and credible.",
+    photo: "/exec/vp-comms.jpg",
+    badge: "systems" as const,
+  },
+  {
+    name: "VP Name",
+    role: "VP of Outreach",
+    team: "Systems Team",
+    bio: "Short bio placeholder. Builds partnerships, connects with mentors/clinicians, and supports deployment pathways.",
+    photo: "/exec/vp-outreach.jpg",
+    badge: "systems" as const,
+  },
+  {
+    name: "Ali Maan",
+    role: "VP of Membership",
+    team: "Systems Team",
+    bio: "Membership, recruiting, onboarding, and making sure the team runs with consistency and accountability week to week.",
+    photo: "/exec/ali-maan.jpg",
+    badge: "systems" as const,
+  },
+];
+
+function Badge({ kind }: { kind: "devices" | "systems" }) {
+  return (
+    <span className={kind === "devices" ? "badge-devices" : "badge-systems"}>
+      {kind === "devices" ? "Devices Team" : "Systems Team"}
+    </span>
+  );
+}
+
+function Headshot({
+  src,
+  alt,
+}: {
+  src: string;
+  alt: string;
+}) {
+  const [error, setError] = useState(false);
+
+  // If the image doesn't exist yet, we show a clean placeholder box.
+  if (error) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          aspectRatio: "1 / 1",
+          background: "oklch(0.22 0.012 260)",
+          border: "1px solid oklch(0.28 0.012 260)",
+          borderRadius: "0.5rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "oklch(0.45 0.01 260)",
+          fontFamily: "'Space Mono', monospace",
+          fontSize: "0.75rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          marginBottom: "1rem",
+        }}
+      >
+        Photo
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setError(true)}
+      style={{
+        width: "100%",
+        aspectRatio: "1 / 1",
+        objectFit: "cover",
+        borderRadius: "0.5rem",
+        border: "1px solid oklch(0.28 0.012 260)",
+        marginBottom: "1rem",
+      }}
+    />
+  );
+}
+
+export default function About() {
+  const hero = useInView(0.15);
+  const approach = useInView(0.15);
+  const culture = useInView(0.15);
+  const leadership = useInView(0.1);
+
+  return (
+    <div>
+      {/* HERO */}
+      <section style={{ padding: "5rem 0 2.5rem" }}>
+        <div className="container">
+          <div
+            ref={hero.ref}
+            style={{
+              opacity: hero.inView ? 1 : 0,
+              transform: hero.inView ? "translateY(0)" : "translateY(18px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <div className="section-label" style={{ marginBottom: "1rem" }}>
+              About
+            </div>
+
+            <h1 style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)", margin: 0, maxWidth: 900 }}>
+              Who we are
+            </h1>
+
+            <p
+              style={{
+                fontSize: "1.05rem",
+                color: "oklch(0.72 0.01 260)",
+                lineHeight: 1.9,
+                maxWidth: 900,
+                marginTop: "1.25rem",
+              }}
+            >
+              ENEMS is a project-driven team building solutions for prehospital care.
+              Our goal is simple: create tools and systems that can actually work in real EMS environments — under real constraints.
+            </p>
+
+            <blockquote
+              className="accent-left"
+              style={{
+                marginTop: "1.5rem",
+                color: "oklch(0.97 0.003 260)",
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 600,
+                fontSize: "1.05rem",
+                lineHeight: 1.6,
+              }}
+            >
+              We bridge design, research, and execution — combining engineering, clinical reasoning, and evidence to build deployable solutions for EMS.
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <div className="rule-line" />
+
+      {/* APPROACH */}
+      <section style={{ padding: "4rem 0" }}>
+        <div className="container">
+          <div
+            ref={approach.ref}
+            style={{
+              opacity: approach.inView ? 1 : 0,
+              transform: approach.inView ? "translateY(0)" : "translateY(18px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <div className="section-label" style={{ marginBottom: "1rem" }}>
+              02 / How We Work
+            </div>
+
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", margin: 0 }}>
+              Our principles
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: "1.25rem",
+                marginTop: "2rem",
+              }}
+              className="mobile-stack"
+            >
+              {approachItems.map((item, i) => (
+                <div
+                  key={item.label}
+                  style={{
+                    background: "oklch(0.17 0.012 260)",
+                    border: "1px solid oklch(0.28 0.012 260)",
+                    padding: "1.5rem",
+                    borderRadius: "0.5rem",
+                  }}
+                  className="card-hover"
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                    <span
+                      style={{
+                        fontFamily: "'Space Mono', monospace",
+                        fontSize: "0.7rem",
+                        color: "oklch(0.55 0.22 262)",
+                        paddingTop: "0.2rem",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: "1.05rem" }}>{item.label}</h3>
+                      <p
+                        style={{
+                          marginTop: "0.75rem",
+                          color: "oklch(0.62 0.015 260)",
+                          lineHeight: 1.8,
+                        }}
+                      >
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="rule-line" />
+
+      {/* CULTURE */}
+      <section style={{ padding: "4rem 0" }}>
+        <div className="container">
+          <div
+            ref={culture.ref}
+            style={{
+              opacity: culture.inView ? 1 : 0,
+              transform: culture.inView ? "translateY(0)" : "translateY(18px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <div className="section-label" style={{ marginBottom: "1rem" }}>
+              03 / Culture
+            </div>
+
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", margin: 0 }}>
+              How we operate
+            </h2>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: "1.25rem",
+                marginTop: "2rem",
+              }}
+              className="mobile-stack"
+            >
+              {cultureItems.map((item) => (
+                <div
+                  key={item.label}
+                  style={{
+                    background: "oklch(0.17 0.012 260)",
+                    border: "1px solid oklch(0.28 0.012 260)",
+                    padding: "1.5rem",
+                    borderRadius: "0.5rem",
+                  }}
+                  className="card-hover"
+                >
+                  <h3 style={{ margin: 0, fontSize: "1.05rem" }}>{item.label}</h3>
+                  <p
+                    style={{
+                      marginTop: "0.75rem",
+                      color: "oklch(0.62 0.015 260)",
+                      lineHeight: 1.8,
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                marginTop: "2rem",
+                padding: "1.5rem 1.75rem",
+                background: "oklch(0.17 0.012 260)",
+                border: "1px solid oklch(0.22 0.012 260)",
+                borderLeft: "3px solid oklch(0.55 0.22 262)",
+                borderRadius: "0 0.5rem 0.5rem 0",
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  color: "oklch(0.72 0.01 260)",
+                  lineHeight: 1.9,
+                }}
+              >
+                ENEMS only works if we treat it like a real build team — consistent effort, clear ownership, and honest iteration.
+                If you’re down to contribute for real, you’ll fit right in.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="rule-line" />
+
+      {/* EXEC BOARD */}
+      <section style={{ padding: "4rem 0" }}>
+        <div className="container">
+          <div
+            ref={leadership.ref}
+            style={{
+              opacity: leadership.inView ? 1 : 0,
+              transform: leadership.inView ? "translateY(0)" : "translateY(18px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <div className="section-label" style={{ marginBottom: "1rem" }}>
+              04 / Leadership
+            </div>
+
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", margin: 0 }}>
+              Executive board
+            </h2>
+
+            <p
+              style={{
+                color: "oklch(0.62 0.015 260)",
+                marginTop: "1rem",
+                maxWidth: 800,
+                lineHeight: 1.9,
+              }}
+            >
+              ENEMS is led by a small, execution-focused team that sets direction, keeps projects moving,
+              and makes sure our work stays grounded in real-world EMS constraints.
+            </p>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: "1.5rem",
+                marginTop: "2rem",
+              }}
+              className="mobile-stack"
+            >
+              {execBoard.map((m) => (
+                <div
+                  key={m.role}
+                  style={{
+                    background: "oklch(0.17 0.012 260)",
+                    border: "1px solid oklch(0.28 0.012 260)",
+                    padding: "1.5rem",
+                    borderRadius: "0.5rem",
+                  }}
+                  className="card-hover"
+                >
+                  <Headshot src={m.photo} alt={m.name} />
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+                    <Badge kind={m.badge} />
+                    <span
+                      style={{
+                        fontFamily: "'Space Mono', monospace",
+                        fontSize: "0.7rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "oklch(0.62 0.015 260)",
+                      }}
+                    >
+                      {m.team}
+                    </span>
+                  </div>
+
+                  <h3 style={{ margin: "0.9rem 0 0", fontSize: "1.15rem" }}>{m.name}</h3>
+
+                  <p
+                    style={{
+                      marginTop: "0.35rem",
+                      fontFamily: "'Space Mono', monospace",
+                      fontSize: "0.7rem",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "oklch(0.62 0.015 260)",
+                    }}
+                  >
+                    {m.role}
+                  </p>
+
+                  <p
+                    style={{
+                      marginTop: "0.9rem",
+                      color: "oklch(0.72 0.01 260)",
+                      lineHeight: 1.85,
+                    }}
+                  >
+                    {m.bio}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p
+              style={{
+                marginTop: "1.75rem",
+                color: "oklch(0.62 0.015 260)",
+                lineHeight: 1.8,
+                maxWidth: 900,
+              }}
+            >
+              Want your photo + bio updated? Drop your headshot into <code>/public/exec</code> and replace the filename in the About page.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+    export default function Contact() {
+  return (
+    <div>
+      <section style={{ padding: "5rem 0 3rem" }}>
+        <div className="container">
+          <div className="section-label" style={{ marginBottom: "1rem" }}>
+            Contact
+          </div>
+
+          <h1 style={{ fontSize: "clamp(2.1rem, 4vw, 3rem)", margin: 0 }}>
+            Get in touch
+          </h1>
+
+          <p
+            style={{
+              marginTop: "1.25rem",
+              color: "oklch(0.72 0.01 260)",
+              lineHeight: 1.9,
+              maxWidth: 760,
+            }}
+          >
+            For membership questions or general ENEMS inquiries, reach out directly.
+          </p>
+
+          <div
+            style={{
+              marginTop: "2rem",
+              background: "oklch(0.17 0.012 260)",
+              border: "1px solid oklch(0.28 0.012 260)",
+              borderLeft: "3px solid oklch(0.55 0.22 262)",
+              borderRadius: "0 0.5rem 0.5rem 0",
+              padding: "1.75rem",
+              maxWidth: 520,
+            }}
+            className="card-hover"
+          >
+            <h2 style={{ margin: 0, fontSize: "1.4rem" }}>Ali Maan</h2>
+
+            <div
+              style={{
+                marginTop: "0.5rem",
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "0.7rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "oklch(0.62 0.015 260)",
+              }}
+            >
+              VP of Membership
+            </div>
+
+            <div className="rule-line" style={{ margin: "1.25rem 0" }} />
+
+            <div style={{ display: "grid", gap: "0.75rem" }}>
+              <a
+                href="mailto:amaan6@gatech.edu"
+                className="nav-link"
+                style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                <span style={{ color: "oklch(0.55 0.22 262)" }}>Email:</span>
+                amaan6@gatech.edu
+              </a>
+
+              <a
+                href="tel:+16784906690"
+                className="nav-link"
+                style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                <span style={{ color: "oklch(0.55 0.22 262)" }}>Cell:</span>
+                (678) 490-6690
+              </a>
+            </div>
+
+            <p
+              style={{
+                marginTop: "1.25rem",
+                color: "oklch(0.62 0.015 260)",
+                lineHeight: 1.8,
+              }}
+            >
+              If you’re reaching out about joining, include your major, your interest area (Devices or Systems),
+              and what you’re excited to build.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
     /* FOOTER */
     footer {
       background: var(--charcoal);
