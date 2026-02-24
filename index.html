@@ -44,14 +44,6 @@
       justify-content: space-between;
       padding: 1rem 5%;
     }
-    .nav-logo {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--charcoal);
-      cursor: pointer;
-    }
-    .nav-logo span { color: var(--red); }
     .nav-tagline {
       display: flex;
       flex-direction: column;
@@ -80,6 +72,14 @@
       border-radius: 100px;
     }
     @media (max-width: 700px) { .nav-tagline { display: none; } }
+    .nav-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      cursor: pointer;
+    }
+    .nav-logo span { color: var(--red); }
     .nav-cta {
       font-family: 'DM Sans', sans-serif;
       font-size: 0.82rem;
@@ -187,9 +187,85 @@
       line-height: 1.8;
       margin-bottom: 2.5rem;
     }
-    .img-block img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 10px; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .img-block {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 16px 56px rgba(0,0,0,0.12);
+      line-height: 0;
+    }
+    .img-block img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-tall { height: 460px; }
+    .img-med { height: 340px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--red);
+      border: 2px solid var(--red);
+      padding: 0.9rem 2.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,32,26,0.25); }
+    .btn-outline {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      background: transparent;
+      border: 2px solid var(--border);
+      padding: 0.9rem 2.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--charcoal); transform: translateY(-2px); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--slate);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+    .bordered-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.2rem;
+      position: relative;
+    }
+    .bordered-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--red);
+      border-radius: 8px 0 0 8px;
+    }
+    .bordered-card h3 { font-size: 1rem; margin-bottom: 1rem; }
+    .arrow-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+    .arrow-list li { display: flex; gap: 0.75rem; font-size: 0.9rem; color: var(--slate); line-height: 1.55; }
+    .arrow-list li::before { content: '\2192'; color: var(--red); font-weight: 500; flex-shrink: 0; }
 
-    /* HOME HERO */
+    /* HOME */
     .hero-wrap {
       max-width: 1100px;
       margin: 0 auto;
@@ -212,44 +288,161 @@
       margin-bottom: 1.5rem;
     }
     .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--red); border-radius: 2px; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.2rem; }
     .hero-image-wrap {
       position: relative;
       height: 540px;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 24px 80px rgba(0,0,0,0.13);
-      background: #eee;
     }
     .hero-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-badge {
+      position: absolute;
+      bottom: 1.5rem; left: 1.5rem;
+      background: rgba(250,248,244,0.96);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      padding: 1rem 1.4rem;
+      border-left: 3px solid var(--red);
+    }
+    .hero-badge strong { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 0.95rem; font-weight: 700; color: var(--charcoal); }
+    .hero-badge span { font-size: 0.72rem; color: var(--muted); }
+    .stats-bar { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 5%; }
+    .stats-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 4rem; flex-wrap: wrap; }
+    .stat-num { font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; font-weight: 700; color: var(--red); line-height: 1; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .mini-cards { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .mini-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.2rem;
+      cursor: pointer;
+      transition: box-shadow 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .mini-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.09); transform: translateY(-3px); }
+    .mini-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.35s; }
+    .mini-card:hover::after { transform: scaleX(1); }
+    .mini-card-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; }
+    .mini-card h3 { font-size: 1.3rem; margin-bottom: 0.6rem; }
+    .mini-card p { font-size: 0.88rem; line-height: 1.7; }
+    .mini-card-arrow { margin-top: 1.2rem; font-size: 0.8rem; color: var(--red); font-weight: 500; }
 
-    /* BOARD GRID */
+    /* BOARD */
+    .board-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 5rem 5%; }
+    .board-section-inner { max-width: 1100px; margin: 0 auto; }
     .board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
     .board-card {
-      background: var(--white);
+      background: var(--cream);
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .board-photo { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #e8e2d9; display: flex; align-items: center; justify-content: center; }
-    .board-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .board-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .board-photo { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
+    .board-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .board-photo-placeholder {
+      width: 100%; aspect-ratio: 1/1;
+      background: #e8e2d9;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .board-photo-placeholder span { color: #999; font-size: 0.85rem; text-align: center; line-height: 1.6; }
     .board-info { padding: 1.4rem; }
-    .board-role { color: var(--red); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .board-info h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.25rem; color: #2c2c2c; }
+    .board-role { color: var(--red); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.7rem; }
+    .board-bio { font-size: 0.85rem; color: var(--slate); line-height: 1.65; }
+
+    /* ABOUT */
+    .about-intro { max-width: 1100px; margin: 0 auto; padding: 4rem 5% 2rem; }
+    .about-body { max-width: 1100px; margin: 0 auto; padding: 0 5% 5rem; }
+
+    /* CULTURE */
+    .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    .value-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .value-dot { width: 8px; height: 8px; background: var(--red); border-radius: 50%; margin-top: 0.55rem; flex-shrink: 0; }
+    .value-item p { font-size: 0.9rem; }
+    .quote-banner { position: relative; border-radius: 10px; overflow: hidden; height: 300px; margin-top: 2rem; }
+    .quote-banner img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.45); display: block; }
+    .quote-banner-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 3rem; }
+    blockquote { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1rem, 1.8vw, 1.3rem); font-style: italic; color: #fff; text-align: center; line-height: 1.7; max-width: 800px; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-detail { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .contact-detail svg { width: 20px; height: 20px; color: var(--red); flex-shrink: 0; }
+    .contact-detail a { color: var(--charcoal); text-decoration: none; font-size: 0.95rem; }
+    .contact-detail a:hover { color: var(--red); }
+    .contact-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .contact-box h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .contact-box .board-role { margin-bottom: 1rem; }
+    .contact-box .divider { margin: 1rem 0; }
+    form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-size: 0.8rem; font-weight: 500; color: var(--slate); letter-spacing: 0.04em; }
+    input, select, textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--red); }
+    textarea { min-height: 130px; resize: vertical; }
+    .form-submit {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--red);
+      border: none;
+      border-radius: 6px;
+      padding: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--red-light); }
 
     /* FOOTER */
     footer {
       background: var(--charcoal);
       padding: 2.5rem 5%;
-      color: #fff;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid #2a2a2e;
     }
-    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; cursor: pointer; }
-    .footer-logo span { color: var(--red); }
+    .footer-logo { font-family: 'Playfair Display', Georgia, serif; font-size: 1.2rem; font-weight: 700; color: #fff; cursor: pointer; }
+    .footer-logo span { color: var(--red-light); }
+    footer p { font-size: 0.78rem; color: #55555f; }
 
     /* RESPONSIVE */
     @media (max-width: 860px) {
-      .hero-wrap { grid-template-columns: 1fr; }
+      .hero-wrap, .two-col, .contact-grid, .mini-cards { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-image-wrap { height: 300px; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-cta { display: none; }
+    }
+    @media (max-width: 500px) {
+      .values-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -283,94 +476,75 @@
       <div>
         <div class="hero-eyebrow">Engineering x EMS Innovation</div>
         <h1>Solutions built for <em>real EMS environments</em></h1>
-        <p class="lead">ENEMS develops deployable solutions for prehospital care at the intersection of device design and clinical reasoning.</p>
-        <button class="btn-primary" onclick="showPage('devices')" style="background:var(--red); color:#fff; padding:1rem 2rem; border:none; border-radius:4px; cursor:pointer;">Explore Our Teams</button>
+        <p class="lead">ENEMS is a project-driven engineering and research team developing deployable solutions for prehospital care — at the intersection of device design, systems analysis, and clinical reasoning.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showPage('devices')">Explore Our Teams</button>
+          <button class="btn-outline" onclick="showPage('about')">Learn More</button>
+        </div>
       </div>
       <div class="hero-image-wrap">
-        <img src="https://picsum.photos/id/287/900/500" alt="EMS Paramedic" onerror="this.src='https://via.placeholder.com/900x500?text=EMS+Innovation'">
+        <img src="https://picsum.photos/seed/ems101/900/500" alt="EMS paramedic in uniform" onerror="this.src='https://via.placeholder.com/900x500?text=EMS+Innovation'" />
+        <div class="hero-badge">
+          <strong>Prehospital Innovation</strong>
+          <span>From concept to deployment</span>
+        </div>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stats-inner">
+        <div><div class="stat-num">2</div><div class="stat-label">Active Teams</div></div>
+        <div><div class="stat-num">Research</div><div class="stat-label">Driven</div></div>
+        <div><div class="stat-num">Field-Ready</div><div class="stat-label">Solutions</div></div>
+        <div><div class="stat-num">Student-Led</div><div class="stat-label">Innovation Lab</div></div>
+      </div>
+    </div>
+    <div class="mini-cards">
+      <div class="mini-card" onclick="showPage('devices')">
+        <div class="mini-card-label">Engineering Division</div>
+        <h3>Devices Team</h3>
+        <p>Builds medical solutions from the ground up — from literature review to functional, testable prototypes ready for deployment.</p>
+        <div class="mini-card-arrow">Explore &rarr;</div>
+      </div>
+      <div class="mini-card" onclick="showPage('systems')">
+        <div class="mini-card-label">Research Division</div>
+        <h3>Systems Team</h3>
+        <p>Identifies inefficiencies in EMS environments through rigorous systems analysis, protocol evaluation, and publishable research.</p>
+        <div class="mini-card-arrow">Explore &rarr;</div>
       </div>
     </div>
   </div>
 
   <div class="page" id="page-about">
-    <div class="container">
-      <div class="section-tag">Leadership</div>
-      <h2>Meet the <em>Board</em></h2>
-      <div class="board-grid">
-        
-        <div class="board-card">
-          <div class="board-photo">
-             <img src="https://via.placeholder.com/300?text=Aayush+Kevadia" alt="Aayush Kevadia">
+    <div class="board-section">
+      <div class="board-section-inner">
+        <div class="section-tag">Leadership</div>
+        <h2 style="margin-bottom:0.5rem;">Meet the <em>Board</em></h2>
+        <p style="max-width:600px;">The people behind ENEMS — building the future of prehospital care from the ground up.</p>
+        <div class="board-grid">
+          <div class="board-card">
+            <div class="board-photo-placeholder"><span>Photo<br>Coming<br>Soon</span></div>
+            <div class="board-info">
+              <h3>Aayush Kevadia</h3>
+              <div class="board-role">Founder</div>
+              <p class="board-bio">Bio coming soon.</p>
+            </div>
           </div>
-          <div class="board-info">
-            <h3>Aayush Kevadia</h3>
-            <div class="board-role">Founder</div>
-            <p>Bio coming soon.</p>
+          <div class="board-card">
+            <div class="board-photo-placeholder"><span>Photo<br>Coming<br>Soon</span></div>
+            <div class="board-info">
+              <h3>Rajeev Harish</h3>
+              <div class="board-role">Founder</div>
+              <p class="board-bio">Bio coming soon.</p>
+            </div>
           </div>
-        </div>
-
-        <div class="board-card">
-          <div class="board-photo">
-             <img src="https://via.placeholder.com/300?text=Rajeev+Harish" alt="Rajeev Harish">
+          <div class="board-card">
+            <div class="board-photo-placeholder"><span>Photo<br>Coming<br>Soon</span></div>
+            <div class="board-info">
+              <h3>Sarah Chau</h3>
+              <div class="board-role">VP of Communications</div>
+              <p class="board-bio">Bio coming soon.</p>
+            </div>
           </div>
-          <div class="board-info">
-            <h3>Rajeev Harish</h3>
-            <div class="board-role">Founder</div>
-            <p>Bio coming soon.</p>
-          </div>
-        </div>
-
-        <div class="board-card">
-          <div class="board-photo">
-             <img src="https://via.placeholder.com/300?text=Ali+Maan" alt="Ali Maan">
-          </div>
-          <div class="board-info">
-            <h3>Ali Maan</h3>
-            <div class="board-role">Operations</div>
-            <p>Bio coming soon.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="page" id="page-devices"><div class="container"><h1>Devices Team</h1><p>Content goes here...</p></div></div>
-  <div class="page" id="page-systems"><div class="container"><h1>Systems Team</h1><p>Content goes here...</p></div></div>
-  <div class="page" id="page-culture"><div class="container"><h1>Our Culture</h1><p>Content goes here...</p></div></div>
-  <div class="page" id="page-contact"><div class="container"><h1>Contact Us</h1><p>Join the lab...</p></div></div>
-
-  <footer>
-    <div class="footer-logo" onclick="showPage('home')">EN<span>EMS</span></div>
-    <p>&copy; 2025 ENEMS Lab. All rights reserved.</p>
-  </footer>
-
-  <script>
-    function showPage(name) {
-      // 1. Hide all pages
-      const pages = document.querySelectorAll(".page");
-      pages.forEach(p => p.classList.remove("active"));
-
-      // 2. Deactivate all tab buttons
-      const tabs = document.querySelectorAll(".tab-btn");
-      tabs.forEach(t => t.classList.remove("active"));
-
-      // 3. Show the requested page
-      const targetPage = document.getElementById("page-" + name);
-      if (targetPage) {
-        targetPage.classList.add("active");
-      }
-
-      // 4. Highlight the matching tab button
-      const targetTab = document.querySelector(`.tab-btn[data-page="${name}"]`);
-      if (targetTab) {
-        targetTab.classList.add("active");
-      }
-
-      // 5. Scroll to top
-      window.scrollTo(0, 0);
-    }
-  </script>
-
-</body>
-</html>
+          <div class="board-card">
+            <div class="board-photo">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAAAAAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4A
